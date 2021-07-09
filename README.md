@@ -1,7 +1,5 @@
 **_Last updated date: Jul 09,2021_**
 
-**_Zubier Hagi (Hagi@ualberta.ca)_**
-
 ## Setup ##
 
 -- Please follow the details below as they will be required to have the program run successfully. --
