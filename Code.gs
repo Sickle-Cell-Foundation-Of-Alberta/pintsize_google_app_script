@@ -96,7 +96,7 @@ function importSheet() {
  var token = ScriptApp.getOAuthToken();
 
  var firebaseUrl =
-   getEnvironment().firebaseUrl + sheet.getParent().getId() + "/" + name;
+   getEnvironment().firebaseUrl +  "/" + name;
  var base = FirebaseApp.getDatabaseByUrl(firebaseUrl, token);
  base.setData("", dataToImport);
 }
