@@ -4,7 +4,7 @@
 
 -- Please follow the details below as they will be required to have the program run successfully. --
 
--- The intention of this program is to sync Google Sheets to a Firebase Realtime Database. --
+-- The intention of this program is to sync Google Sheets to a Cloud Firestore Database. --
 
 
 ## Installation Guide ##
