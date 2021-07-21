@@ -2,12 +2,21 @@
 * Copyright 2019 Google LLC.
 * SPDX-License-Identifier: Apache-2.0
 */
-
-function AwarenessFunc() {
-
+function initialization(){
     const email = "masked";
     const key = "masked";
-    const projectId ="masked";
+    const projectId = "masked";
+  return email,key, projectId;
+}
+
+
+
+
+function AwarenessFunc() {
+    const email = "masked";
+    const key = "masked";
+    const projectId = "masked";
+  
     var firestore = FirestoreApp.getFirestore (email, key, projectId);
        
    // get document data from ther spreadsheet
@@ -32,19 +41,22 @@ function AwarenessFunc() {
       if(sourceData[i][1] !== '') {
         var data = {};
 
- 
+        const allDocuments = firestore.getDocuments("Awareness/");
+        console.log(allDocuments);        
         data.id = sourceData[i][0];
         data.Title = sourceData[i][1];
         data.Description = sourceData[i][2];
-
-        firestore.deleteDocument("Awareness/"+ data.id,data,true);
-         
+        
         firestore.updateDocument("Awareness/"+ data.id,data,true);
  
       }
      
    }
  }
+
+
+
+
 
 
 function CBSDonationFunc() {
@@ -74,6 +86,8 @@ function CBSDonationFunc() {
     for (var i=0;i<sourceLen;i++){
       if(sourceData[i][1] !== '') {
         var data = {};
+
+ 
         data.id = sourceData[i][0];
         data.City = sourceData[i][1];
         data.Country = sourceData[i][2];
@@ -82,7 +96,7 @@ function CBSDonationFunc() {
         data.Address = sourceData[i][5];
         data.nextAvailableDate = sourceData[i][6];
      
-        firestore.updateDocument("Canadian_Blood_Services/"+ data.id,data);
+        firestore.updateDocument("BloodDonationData/"+ data.id,data);
  
       }
      
@@ -119,11 +133,138 @@ function dailyTipsFunc() {
     for (var i=0;i<sourceLen;i++){
       if(sourceData[i][1] !== '') {
         var data = {};
+        
         data.id = sourceData[i][0];
         data.Title = sourceData[i][1];
         data.Description = sourceData[i][2];
      
         firestore.updateDocument("DailyTips/"+ data.id,data);
+ 
+      }
+     
+   }
+ }
+
+
+
+function MythsFactsFunc() {
+    const email = "masked";
+    const key = "masked";
+    const projectId = "masked";
+    var firestore = FirestoreApp.getFirestore (email, key, projectId);
+     
+   // get document data from ther spreadsheet
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheetname = "DailyTips";
+    var sheet = ss.getSheetByName(sheetname); 
+    // get the last row and column in order to define range
+    var sheetLR = sheet.getLastRow(); // get the last row
+    var sheetLC = sheet.getLastColumn(); // get the last column
+ 
+    var dataSR = 2; // the first row of data
+    // define the data range
+    var sourceRange = sheet.getRange(2,1,sheetLR-dataSR+1,sheetLC);
+ 
+    // get the data
+    var sourceData = sourceRange.getValues();
+    // get the number of length of the object in order to establish a loop value
+    var sourceLen = sourceData.length;
+   
+   // Loop through the rows
+    for (var i=0;i<sourceLen;i++){
+      if(sourceData[i][1] !== '') {
+        var data = {};
+        
+        data.id = sourceData[i][0];
+        data.Title = sourceData[i][1];
+        data.Description = sourceData[i][2];
+     
+        firestore.updateDocument("MythsFacts/"+ data.id,data);
+ 
+      }
+     
+   }
+ }
+
+
+
+function NewsFunc() {
+    const email = "masked";
+    const key = "masked";
+    const projectId = "masked";
+    var firestore = FirestoreApp.getFirestore (email, key, projectId);
+     
+   // get document data from ther spreadsheet
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheetname = "Resources";
+    var sheet = ss.getSheetByName(sheetname); 
+    // get the last row and column in order to define range
+    var sheetLR = sheet.getLastRow(); // get the last row
+    var sheetLC = sheet.getLastColumn(); // get the last column
+ 
+    var dataSR = 2; // the first row of data
+    // define the data range
+    var sourceRange = sheet.getRange(2,1,sheetLR-dataSR+1,sheetLC);
+ 
+    // get the data
+    var sourceData = sourceRange.getValues();
+    // get the number of length of the object in order to establish a loop value
+    var sourceLen = sourceData.length;
+   
+   // Loop through the rows
+    for (var i=0;i<sourceLen;i++){
+      if(sourceData[i][1] !== '') {
+        var data = {};
+        
+        data.id = sourceData[i][0];
+        data.Title = sourceData[i][1];
+        data.Description = sourceData[i][2];
+     
+        firestore.updateDocument("Resources/"+ data.id,data);
+ 
+      }
+     
+   }
+ }
+
+
+
+
+ 
+ 
+function NewsFunc() {
+    const email = "masked";
+    const key = "masked";
+    const projectId = "masked";
+    var firestore = FirestoreApp.getFirestore (email, key, projectId);
+     
+   // get document data from ther spreadsheet
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheetname = "DailyTips";
+    var sheet = ss.getSheetByName(sheetname); 
+    // get the last row and column in order to define range
+    var sheetLR = sheet.getLastRow(); // get the last row
+    var sheetLC = sheet.getLastColumn(); // get the last column
+ 
+    var dataSR = 2; // the first row of data
+    // define the data range
+    var sourceRange = sheet.getRange(2,1,sheetLR-dataSR+1,sheetLC);
+ 
+    // get the data
+    var sourceData = sourceRange.getValues();
+    // get the number of length of the object in order to establish a loop value
+    var sourceLen = sourceData.length;
+   
+   // Loop through the rows
+    for (var i=0;i<sourceLen;i++){
+      if(sourceData[i][1] !== '') {
+        var data = {};
+        
+        data.id = sourceData[i][0];
+        data.Title = sourceData[i][1];
+        data.Description = sourceData[i][2];
+     
+        firestore.updateDocument("News/"+ data.id,data);
  
       }
      
