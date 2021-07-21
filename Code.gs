@@ -3,100 +3,130 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 
-/** 
- * Replace the spreadsheet_Id with the id found on the spreadsheet
- * Replace the “firebaseUrl” with the database URL.
-*/
-secretKey = os.Getenv("spreadsheet_Id")
-secretUrl = os.Getenv("firebaseUrl")
+function AwarenessFunc() {
 
+    const email = "masked";
+    const key = "masked";
+    const projectId ="masked";
+    var firestore = FirestoreApp.getFirestore (email, key, projectId);
+       
+   // get document data from ther spreadsheet
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheetname = "Awareness";
+    var sheet = ss.getSheetByName(sheetname); 
+    // get the last row and column in order to define range
+    var sheetLR = sheet.getLastRow(); // get the last row
+    var sheetLC = sheet.getLastColumn(); // get the last column
+ 
+    var dataSR = 2; // the first row of data
+    // define the data range
+    var sourceRange = sheet.getRange(2,1,sheetLR-dataSR+1,sheetLC);
+ 
+    // get the data
+    var sourceData = sourceRange.getValues();
+    // get the number of length of the object in order to establish a loop value
+    var sourceLen = sourceData.length;
+   
+   // Loop through the rows
+    for (var i=0;i<sourceLen;i++){
+      if(sourceData[i][1] !== '') {
+        var data = {};
 
-// Setting up the enviroment
-function getEnvironment() {
-    var environment = {
-      spreadsheetID: secretKey,
-      firebaseUrl: "secretUrl"
-    };
-    return environment;
-   }
+ 
+        data.id = sourceData[i][0];
+        data.Title = sourceData[i][1];
+        data.Description = sourceData[i][2];
 
-  
-// Creates a Google Sheets on change trigger for the specific sheet
-function createSpreadsheetEditTrigger(sheetID) {
- var triggers = ScriptApp.getProjectTriggers();
- var triggerExists = false;
- for (var i = 0; i < triggers.length; i++) {
-   if (triggers[i].getTriggerSourceId() == sheetID) {
-     triggerExists = true;
-     break;
-   }
- }
-
- if (!triggerExists) {
-   var spreadsheet = SpreadsheetApp.openById(sheetID);
-   ScriptApp.newTrigger("importSheet")
-     .forSpreadsheet(spreadsheet)
-     .onChange()
-     .create();
- }
-}
-
-// Deletes all the existing triggers for the project
-function deleteTriggers() {
- var triggers = ScriptApp.getProjectTriggers();
- for (var i = 0; i < triggers.length; i++) {
-   ScriptApp.deleteTrigger(triggers[i]);
- }
-}
-
-// Initialize
-function initialize(e) {
- writeDataToFirebase(getEnvironment().spreadsheetID);
-}
-
-// Write the data to the Firebase URL
-function writeDataToFirebase(sheetID) {
- var ss = SpreadsheetApp.openById(sheetID);
- SpreadsheetApp.setActiveSpreadsheet(ss);
- createSpreadsheetEditTrigger(sheetID);
- var sheets = ss.getSheets();
- for (var i = 0; i < sheets.length; i++) {
-   importSheet(sheets[i]);
-   SpreadsheetApp.setActiveSheet(sheets[i]);
- }
-}
-
-// A utility function to generate nested object when
-// given a keys in array format
-function assign(obj, keyPath, value) {
- lastKeyIndex = keyPath.length - 1;
- for (var i = 0; i < lastKeyIndex; ++i) {
-   key = keyPath[i];
-   if (!(key in obj)) obj[key] = {};
-   obj = obj[key];
- }
- obj[keyPath[lastKeyIndex]] = value;
-}
-
-// Import each sheet when there is a change
-function importSheet() {
- var sheet = SpreadsheetApp.getActiveSheet();
- var name = sheet.getName();
- var data = sheet.getDataRange().getValues();
-
- var dataToImport = {};
-
- for (var i = 1; i < data.length; i++) {
-   dataToImport[data[i][0]] = {};
-   for (var j = 0; j < data[0].length; j++) {
-     assign(dataToImport[data[i][0]], data[0][j].split("__"), data[i][j]);
+        firestore.deleteDocument("Awareness/"+ data.id,data,true);
+         
+        firestore.updateDocument("Awareness/"+ data.id,data,true);
+ 
+      }
+     
    }
  }
 
- var token = ScriptApp.getOAuthToken();
 
- var firebaseUrl =
-   getEnvironment().firebaseUrl +  "/" + name;
- var base = FirebaseApp.getDatabaseByUrl(firebaseUrl, token);
- base.setData("", dataToImport);
-}
+function CBSDonationFunc() {
+    const email = "masked";
+    const key = "masked";
+    const projectId = "masked";
+    var firestore = FirestoreApp.getFirestore (email, key, projectId);
+     
+   // get document data from ther spreadsheet
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheetname = "Cbs_Donoation_Data";
+    var sheet = ss.getSheetByName(sheetname); 
+    // get the last row and column in order to define range
+    var sheetLR = sheet.getLastRow(); // get the last row
+    var sheetLC = sheet.getLastColumn(); // get the last column
+ 
+    var dataSR = 2; // the first row of data
+    // define the data range
+    var sourceRange = sheet.getRange(2,1,sheetLR-dataSR+1,sheetLC);
+ 
+    // get the data
+    var sourceData = sourceRange.getValues();
+    // get the number of length of the object in order to establish a loop value
+    var sourceLen = sourceData.length;
+   
+   // Loop through the rows
+    for (var i=0;i<sourceLen;i++){
+      if(sourceData[i][1] !== '') {
+        var data = {};
+        data.id = sourceData[i][0];
+        data.City = sourceData[i][1];
+        data.Country = sourceData[i][2];
+        data.donorCentre = sourceData[i][3];
+        data.Location = sourceData[i][4];
+        data.Address = sourceData[i][5];
+        data.nextAvailableDate = sourceData[i][6];
+     
+        firestore.updateDocument("Canadian_Blood_Services/"+ data.id,data);
+ 
+      }
+     
+   }
+ }
+
+
+
+
+function dailyTipsFunc() {
+    const email = "masked";
+    const key = "masked";
+    const projectId = "masked";
+    var firestore = FirestoreApp.getFirestore (email, key, projectId);
+     
+   // get document data from ther spreadsheet
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheetname = "DailyTips";
+    var sheet = ss.getSheetByName(sheetname); 
+    // get the last row and column in order to define range
+    var sheetLR = sheet.getLastRow(); // get the last row
+    var sheetLC = sheet.getLastColumn(); // get the last column
+ 
+    var dataSR = 2; // the first row of data
+    // define the data range
+    var sourceRange = sheet.getRange(2,1,sheetLR-dataSR+1,sheetLC);
+ 
+    // get the data
+    var sourceData = sourceRange.getValues();
+    // get the number of length of the object in order to establish a loop value
+    var sourceLen = sourceData.length;
+   
+   // Loop through the rows
+    for (var i=0;i<sourceLen;i++){
+      if(sourceData[i][1] !== '') {
+        var data = {};
+        data.id = sourceData[i][0];
+        data.Title = sourceData[i][1];
+        data.Description = sourceData[i][2];
+     
+        firestore.updateDocument("DailyTips/"+ data.id,data);
+ 
+      }
+     
+   }
+ }
+
