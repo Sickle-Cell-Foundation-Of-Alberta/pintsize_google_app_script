@@ -2,22 +2,48 @@
 * Copyright 2019 Google LLC.
 * SPDX-License-Identifier: Apache-2.0
 */
-function initialization(){
+
+
+function getFirestore() {
     const email = "masked";
-    const key = "masked";
+    const key = "masked;
     const projectId = "masked";
-  return email,key, projectId;
+ return FirestoreApp.getFirestore(email, key, projectId); 
+  }
+
+
+// A custom function that delete collections's of documents
+function importFromFirestore() {
+  // 1. Get a Firestore insance
+  const firestore = getFirestore(); 
+  
+  // 2. Get a collection from Firestore
+  const allDocuments = firestore.getDocuments('Awareness').map(function(document) {
+    return document.obj;
+  });
+  
+  // 3. Get the first document from the collection
+  const first = allDocuments[0];
+  const columns = Object.keys(first);
+  
+  const sheet = SpreadsheetApp.getActiveSheet();
+  sheet.appendRow(columns);
+  
+  // 4. Turn each document into an array to be deleted to the sheet
+  allDocuments.forEach(function(document) {
+    const row = columns.map(function(column) {
+      return document[column];
+    });
+    firestore.deleteDocument("FirstCollection/" + row);
+
+  });
 }
 
 
 
-
 function AwarenessFunc() {
-    const email = "masked";
-    const key = "masked";
-    const projectId = "masked";
-  
-    var firestore = FirestoreApp.getFirestore (email, key, projectId);
+
+    var firestore = getFirestore();
        
    // get document data from ther spreadsheet
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -60,10 +86,7 @@ function AwarenessFunc() {
 
 
 function CBSDonationFunc() {
-    const email = "masked";
-    const key = "masked";
-    const projectId = "masked";
-    var firestore = FirestoreApp.getFirestore (email, key, projectId);
+    var firestore = getFirestore();
      
    // get document data from ther spreadsheet
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -107,9 +130,7 @@ function CBSDonationFunc() {
 
 
 function dailyTipsFunc() {
-    const email = "masked";
-    const key = "masked";
-    const projectId = "masked";
+
     var firestore = FirestoreApp.getFirestore (email, key, projectId);
      
    // get document data from ther spreadsheet
@@ -148,10 +169,8 @@ function dailyTipsFunc() {
 
 
 function MythsFactsFunc() {
-    const email = "masked";
-    const key = "masked";
-    const projectId = "masked";
-    var firestore = FirestoreApp.getFirestore (email, key, projectId);
+
+    var firestore = getFirestore();
      
    // get document data from ther spreadsheet
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -189,10 +208,8 @@ function MythsFactsFunc() {
 
 
 function NewsFunc() {
-    const email = "masked";
-    const key = "masked";
-    const projectId = "masked";
-    var firestore = FirestoreApp.getFirestore (email, key, projectId);
+
+    var firestore = getFirestore();
      
    // get document data from ther spreadsheet
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -233,10 +250,8 @@ function NewsFunc() {
  
  
 function NewsFunc() {
-    const email = "masked";
-    const key = "masked";
-    const projectId = "masked";
-    var firestore = FirestoreApp.getFirestore (email, key, projectId);
+
+    var firestore = FgetFirestore();
      
    // get document data from ther spreadsheet
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -270,4 +285,3 @@ function NewsFunc() {
      
    }
  }
-
