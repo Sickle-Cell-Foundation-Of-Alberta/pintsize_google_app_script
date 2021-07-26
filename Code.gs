@@ -7,6 +7,7 @@ secretEmail = "masked";
 secretKey = "masked"
 secretId = "masked";
 
+// Cloud Firestore instance
 function getFirestore() {
     const email = secretEmail;
     const key = secretKey;
@@ -27,13 +28,11 @@ function getFirestore() {
 
 //     };
     
-
 // }
 
 
-
+// Awareness Function
 function AwarenessFunc() {
-
     var firestore = getFirestore();
 
     // A custom function that delete collections's of documents
@@ -42,7 +41,6 @@ function AwarenessFunc() {
       var documentID = (allDocuments[index]['name'])
       var result = documentID.substring(documentID.lastIndexOf("/") + 1);
       firestore.deleteDocument("Awareness/"+result);
-
     };
        
    // get document data from ther spreadsheet
@@ -65,13 +63,12 @@ function AwarenessFunc() {
    // Loop through the rows
     for (var i=0;i<sourceLen;i++){
       if(sourceData[i][1] !== '') {
-        var data = {};
-
-        console.log(allDocuments);        
+        var data = {};    
         data.id = sourceData[i][0];
         data.Title = sourceData[i][1];
         data.Description = sourceData[i][2];
         
+         // Establishes the Documents from the awarenss sheeet
         firestore.createDocument("Awareness",data);
  
       }
@@ -83,7 +80,7 @@ function AwarenessFunc() {
 
 
 
-
+// Awareness Function
 function CBSDonationFunc() {
   
     var firestore = getFirestore();
@@ -127,7 +124,8 @@ function CBSDonationFunc() {
         data.Location = sourceData[i][4];
         data.Address = sourceData[i][5];
         data.nextAvailableDate = sourceData[i][6];
-     
+        
+          // Establishes the Documents from the CBS_Donation_Data sheeet
         firestore.createDocument("BloodDonationData/",data);
  
       }
@@ -137,7 +135,7 @@ function CBSDonationFunc() {
 
 
 
-
+// Daily Tips Function
 function dailyTipsFunc() {
 
     var firestore = getFirestore();
@@ -176,7 +174,8 @@ function dailyTipsFunc() {
         data.id = sourceData[i][0];
         data.Title = sourceData[i][1];
         data.Description = sourceData[i][2];
-     
+        
+         // Establishes the Documents from the DailyTips sheeet
         firestore.createDocument("DailyTips/",data);
  
       }
@@ -185,7 +184,7 @@ function dailyTipsFunc() {
  }
 
 
-
+// Myths and Facts Funtion
 function MythsFactsFunc() {
 
     var firestore = getFirestore();
@@ -224,7 +223,7 @@ function MythsFactsFunc() {
         data.id = sourceData[i][0];
         data.Title = sourceData[i][1];
         data.Description = sourceData[i][2];
-     
+        // Establishes the Documents from the MythsFacts sheeet
         firestore.createDocument("MythsFacts/",data);
  
       }
@@ -233,7 +232,7 @@ function MythsFactsFunc() {
  }
 
 
-
+// News Fuction
 function NewsFunc() {
 
     var firestore = getFirestore();
@@ -271,7 +270,8 @@ function NewsFunc() {
         data.id = sourceData[i][0];
         data.Title = sourceData[i][1];
         data.Description = sourceData[i][2];
-     
+          
+        // Establishes the Documents from the News sheeet
         firestore.createDocument("News/",data);
  
       }
@@ -279,7 +279,7 @@ function NewsFunc() {
    }
  }
 
-
+// Resources Function
 function ResourceFunc() {
 
     var firestore = getFirestore();
@@ -317,15 +317,10 @@ function ResourceFunc() {
         data.id = sourceData[i][0];
         data.Title = sourceData[i][1];
         data.Description = sourceData[i][2];
-     
+        // Establishes the Documents from the Resources sheeet
         firestore.createDocument("Resources/",data);
  
       }
      
    }
  }
-
-
-
-
- 
