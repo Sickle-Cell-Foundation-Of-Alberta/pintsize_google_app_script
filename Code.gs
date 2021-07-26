@@ -3,47 +3,47 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 
+secretEmail = "masked";
+secretKey = "masked"
+secretId = "masked";
 
 function getFirestore() {
-    const email = "masked";
-    const key = "masked;
-    const projectId = "masked";
+    const email = secretEmail;
+    const key = secretKey;
+    const projectId = secretId;
  return FirestoreApp.getFirestore(email, key, projectId); 
   }
 
 
-// A custom function that delete collections's of documents
-function importFromFirestore() {
-  // 1. Get a Firestore insance
-  const firestore = getFirestore(); 
-  
-  // 2. Get a collection from Firestore
-  const allDocuments = firestore.getDocuments('Awareness').map(function(document) {
-    return document.obj;
-  });
-  
-  // 3. Get the first document from the collection
-  const first = allDocuments[0];
-  const columns = Object.keys(first);
-  
-  const sheet = SpreadsheetApp.getActiveSheet();
-  sheet.appendRow(columns);
-  
-  // 4. Turn each document into an array to be deleted to the sheet
-  allDocuments.forEach(function(document) {
-    const row = columns.map(function(column) {
-      return document[column];
-    });
-    firestore.deleteDocument("FirstCollection/" + row);
+// // A custom function that delete collections's of documents
+// function importFromFirestore() {
+//     var firestore = getFirestore();
+//     const allDocuments = firestore.getDocuments("Awareness");
+//     var myDict = {};
+//     for (var index in allDocuments){
+//       var documentID = (allDocuments[index]['name'])
+//       var result = documentID.substring(documentID.lastIndexOf("/") + 1);
+//       firestore.deleteDocument("Awareness/"+result);
 
-  });
-}
+//     };
+    
+
+// }
 
 
 
 function AwarenessFunc() {
 
     var firestore = getFirestore();
+
+    // A custom function that delete collections's of documents
+    const allDocuments = firestore.getDocuments("Awareness");
+    for (var index in allDocuments){
+      var documentID = (allDocuments[index]['name'])
+      var result = documentID.substring(documentID.lastIndexOf("/") + 1);
+      firestore.deleteDocument("Awareness/"+result);
+
+    };
        
    // get document data from ther spreadsheet
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -67,13 +67,12 @@ function AwarenessFunc() {
       if(sourceData[i][1] !== '') {
         var data = {};
 
-        const allDocuments = firestore.getDocuments("Awareness/");
         console.log(allDocuments);        
         data.id = sourceData[i][0];
         data.Title = sourceData[i][1];
         data.Description = sourceData[i][2];
         
-        firestore.updateDocument("Awareness/"+ data.id,data,true);
+        firestore.createDocument("Awareness",data);
  
       }
      
@@ -86,7 +85,17 @@ function AwarenessFunc() {
 
 
 function CBSDonationFunc() {
+  
     var firestore = getFirestore();
+
+    // A custom function that delete collections's of documents
+    const allDocuments = firestore.getDocuments("BloodDonationData");
+    for (var index in allDocuments){
+      var documentID = (allDocuments[index]['name'])
+      var result = documentID.substring(documentID.lastIndexOf("/") + 1);
+      firestore.deleteDocument("BloodDonationData/"+result);
+
+    };
      
    // get document data from ther spreadsheet
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -119,7 +128,7 @@ function CBSDonationFunc() {
         data.Address = sourceData[i][5];
         data.nextAvailableDate = sourceData[i][6];
      
-        firestore.updateDocument("BloodDonationData/"+ data.id,data);
+        firestore.createDocument("BloodDonationData/",data);
  
       }
      
@@ -131,7 +140,16 @@ function CBSDonationFunc() {
 
 function dailyTipsFunc() {
 
-    var firestore = FirestoreApp.getFirestore (email, key, projectId);
+    var firestore = getFirestore();
+
+    // A custom function that delete collections's of documents
+    const allDocuments = firestore.getDocuments("DailyTips");
+    for (var index in allDocuments){
+      var documentID = (allDocuments[index]['name'])
+      var result = documentID.substring(documentID.lastIndexOf("/") + 1);
+      firestore.deleteDocument("DailyTips/"+result);
+
+    };
      
    // get document data from ther spreadsheet
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -159,7 +177,7 @@ function dailyTipsFunc() {
         data.Title = sourceData[i][1];
         data.Description = sourceData[i][2];
      
-        firestore.updateDocument("DailyTips/"+ data.id,data);
+        firestore.createDocument("DailyTips/",data);
  
       }
      
@@ -171,10 +189,19 @@ function dailyTipsFunc() {
 function MythsFactsFunc() {
 
     var firestore = getFirestore();
+
+    // A custom function that delete collections's of documents
+    const allDocuments = firestore.getDocuments("MythsFacts");
+    for (var index in allDocuments){
+      var documentID = (allDocuments[index]['name'])
+      var result = documentID.substring(documentID.lastIndexOf("/") + 1);
+      firestore.deleteDocument("MythsFacts/"+result);
+
+    };
      
    // get document data from ther spreadsheet
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheetname = "DailyTips";
+    var sheetname = "MythsFacts";
     var sheet = ss.getSheetByName(sheetname); 
     // get the last row and column in order to define range
     var sheetLR = sheet.getLastRow(); // get the last row
@@ -198,7 +225,7 @@ function MythsFactsFunc() {
         data.Title = sourceData[i][1];
         data.Description = sourceData[i][2];
      
-        firestore.updateDocument("MythsFacts/"+ data.id,data);
+        firestore.createDocument("MythsFacts/",data);
  
       }
      
@@ -210,6 +237,14 @@ function MythsFactsFunc() {
 function NewsFunc() {
 
     var firestore = getFirestore();
+
+    // A custom function that delete collections's of documents
+    const allDocuments = firestore.getDocuments("News");
+    for (var index in allDocuments){
+      var documentID = (allDocuments[index]['name'])
+      var result = documentID.substring(documentID.lastIndexOf("/") + 1);
+      firestore.deleteDocument("News/"+result);
+    };
      
    // get document data from ther spreadsheet
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -237,7 +272,7 @@ function NewsFunc() {
         data.Title = sourceData[i][1];
         data.Description = sourceData[i][2];
      
-        firestore.updateDocument("Resources/"+ data.id,data);
+        firestore.createDocument("News/",data);
  
       }
      
@@ -245,17 +280,21 @@ function NewsFunc() {
  }
 
 
+function ResourceFunc() {
 
+    var firestore = getFirestore();
 
- 
- 
-function NewsFunc() {
-
-    var firestore = FgetFirestore();
+    // A custom function that delete collections's of documents
+    const allDocuments = firestore.getDocuments("Resources");
+    for (var index in allDocuments){
+      var documentID = (allDocuments[index]['name'])
+      var result = documentID.substring(documentID.lastIndexOf("/") + 1);
+      firestore.deleteDocument("Resources/"+result);
+    };
      
    // get document data from ther spreadsheet
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheetname = "DailyTips";
+    var sheetname = "Resources";
     var sheet = ss.getSheetByName(sheetname); 
     // get the last row and column in order to define range
     var sheetLR = sheet.getLastRow(); // get the last row
@@ -279,9 +318,14 @@ function NewsFunc() {
         data.Title = sourceData[i][1];
         data.Description = sourceData[i][2];
      
-        firestore.updateDocument("News/"+ data.id,data);
+        firestore.createDocument("Resources/",data);
  
       }
      
    }
  }
+
+
+
+
+ 
