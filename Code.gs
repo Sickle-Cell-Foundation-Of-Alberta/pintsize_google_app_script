@@ -6,7 +6,7 @@
 
 function getFirestore() {
     const email = "masked";
-    const key = "masked;
+    const key = "masked";
     const projectId = "masked";
  return FirestoreApp.getFirestore(email, key, projectId); 
   }
